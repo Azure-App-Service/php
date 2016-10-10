@@ -2,7 +2,7 @@ FROM php:7.0.6-apache
 MAINTAINER Nazim Lala <naziml@microsoft.com>
 
 COPY apache2.conf /bin/
-COPY init_continer.sh /bin/
+COPY init_container.sh /bin/
 
 RUN a2enmod rewrite expires
 
