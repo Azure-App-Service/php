@@ -19,6 +19,7 @@ RUN   \
    && chmod 777 /var/log \
    && chmod 777 /var/run \
    && chmod 777 /var/lock \
+   && chmod 777 /bin/init_container.sh \
    && cp /bin/apache2.conf /etc/apache2/apache2.conf 
 
 RUN { \
