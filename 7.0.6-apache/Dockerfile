@@ -14,16 +14,15 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev && rm -rf /var
          opcache \
          pdo \
          pdo_mysql \
-         mysql \
          pdo_pgsql \
          pgsql \
          ldap \
          intl \
-         mcrypt \ 
+         mcrypt \
          gmp \
          zip \
-         bcmath \ 
-         mbstring \ 
+         bcmath \
+         mbstring \
          pcntl
 
 RUN   \
