@@ -18,11 +18,11 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev && rm -rf /var
          pgsql \
          ldap \
          intl \
-         mcrypt \ 
+         mcrypt \
          gmp \
          zip \
-         bcmath \ 
-         mbstring \ 
+         bcmath \
+         mbstring \
          pcntl
 
 RUN   \
