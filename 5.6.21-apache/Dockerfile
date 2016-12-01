@@ -12,7 +12,7 @@ RUN apt-get update \
     libjpeg-dev \
     libpq-dev \
     libmcrypt-dev \
-    libldap2-dev
+    libldap2-dev \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
     && docker-php-ext-install gd \
