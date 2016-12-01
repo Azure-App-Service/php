@@ -14,6 +14,8 @@ RUN apt-get update \
     libmcrypt-dev \
     libldap2-dev \
     libldb-dev \
+    libicu-dev \
+    libgmp-dev \
     && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
     && ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so \
     && rm -rf /var/lib/apt/lists/* \
