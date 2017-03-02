@@ -9,15 +9,15 @@ RUN a2enmod rewrite expires
 # install the PHP extensions we need
 RUN apt update \ 
     && apt install -y --no-install-recommends \
-    libpng12-dev \
-    libjpeg-dev \
-    libpq-dev \
-    libmcrypt-dev \
-    libldap2-dev \
-    libldb-dev \
-    libicu-dev \
-    libgmp-dev \
-    openssh-server \
+         libpng12-dev \
+         libjpeg-dev \
+         libpq-dev \
+         libmcrypt-dev \
+         libldap2-dev \
+         libldb-dev \
+         libicu-dev \
+         libgmp-dev \
+         openssh-server \
     && chmod 755 /bin/init_container.sh 
     && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
     && ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so \
