@@ -18,6 +18,7 @@ RUN apt-get update \
          libicu-dev \
          libgmp-dev \
          openssh-server \
+    && echo "root:Docker!" | chpasswd \
     && chmod 755 /bin/init_container.sh \
     && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
     && ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so \
