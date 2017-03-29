@@ -19,6 +19,7 @@ RUN apt-get update \
          libgmp-dev \
          openssh-server \
     && chmod 755 /bin/init_container.sh \
+    && echo "root:Docker!" | chpasswd \
     && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
     && ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
