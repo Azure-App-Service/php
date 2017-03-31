@@ -4,7 +4,7 @@ MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
 COPY apache2.conf /bin/
 COPY init_container.sh /bin/
 
-RUN a2enmod rewrite expires
+RUN a2enmod rewrite expires include
 
 # install the PHP extensions we need
 RUN apt update \ 
@@ -58,7 +58,7 @@ RUN   \
    && rm -rf /var/www/html \
    && rm -rf /var/log/apache2 \
    && ln -s /home/site/wwwroot /var/www/html \
-   && ln -s /home/LogFiles /var/log/apache2
+   && ln -s /home/LogFiles /var/log/apache2 
 
 RUN { \
                 echo 'opcache.memory_consumption=128'; \
