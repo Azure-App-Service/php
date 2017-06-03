@@ -19,6 +19,7 @@ RUN apt-get update \
          libgmp-dev \
          libmagickwand-dev \
          openssh-server \
+    && echo "root:Docker!" | chpasswd \
     && chmod 755 /bin/init_container.sh \
     && echo "root:Docker!" | chpasswd \
     && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
