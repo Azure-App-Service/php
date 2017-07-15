@@ -6,6 +6,19 @@ COPY init_container.sh /bin/
 COPY hostingstart.html /home/site/wwwroot/hostingstart.html
 
 RUN a2enmod rewrite expires include
+# install ODBC clients for Microsoft SQL Server PHP extensions
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+RUN curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list
+RUN apt-get update && ACCEPT_EULA=Y apt-get install -y unixodbc-dev msodbcsql 
+RUN apt-get install -y locales \
+    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+    && locale-gen
+
+# install SQL Server PHP connector module 
+RUN pecl install sqlsrv pdo_sqlsrv
+
+RUN echo "extension = pdo_sqlsrv.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+RUN echo "extension = sqlsrv.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
 # install the PHP extensions we need
 RUN apt-get update \
