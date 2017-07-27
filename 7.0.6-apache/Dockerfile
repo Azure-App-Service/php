@@ -19,7 +19,7 @@ RUN apt-get update \
          libicu-dev \
          libgmp-dev \
          libmagickwand-dev \
-         openssh-server \
+         openssh-server vim curl wget tcptraceroute \
     && chmod 755 /bin/init_container.sh \
     && echo "root:Docker!" | chpasswd \
     && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
