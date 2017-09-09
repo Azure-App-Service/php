@@ -22,6 +22,7 @@ RUN apt-get update \
          openssh-server vim curl wget tcptraceroute \
     && chmod 755 /bin/init_container.sh \
     && echo "root:Docker!" | chpasswd \
+    && echo "cd /" >> /etc/bash.bashrc \
     && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
     && ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
