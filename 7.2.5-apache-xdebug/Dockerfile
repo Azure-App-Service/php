@@ -1,4 +1,4 @@
-FROM appsvctest/php:7.2.1-apache_1801171635
+FROM appsvc/php:7.2.5-apache_1805092223
 MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
 
 RUN yes | pecl install xdebug-beta \

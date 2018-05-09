@@ -1,4 +1,4 @@
-FROM php:7.2.1-apache
+FROM php:5.6.36-apache
 MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
 
 COPY apache2.conf /bin/
@@ -8,9 +8,9 @@ COPY hostingstart.html /home/site/wwwroot/hostingstart.html
 RUN a2enmod rewrite expires include deflate
 
 # install the PHP extensions we need
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-         libpng-dev \
+RUN apt update \ 
+    && apt install -y --no-install-recommends \
+         libpng12-dev \
          libjpeg-dev \
          libpq-dev \
          libmcrypt-dev \
@@ -28,7 +28,6 @@ RUN apt-get update \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && rm -rf /var/lib/apt/lists/* \
     && pecl install imagick-beta \
-    && pecl install mcrypt-1.0.1 \
     && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
     && docker-php-ext-install gd \
          mysqli \
@@ -39,13 +38,13 @@ RUN apt-get update \
          pgsql \
          ldap \
          intl \
+         mcrypt \
          gmp \
          zip \
          bcmath \
          mbstring \
          pcntl \
-    && docker-php-ext-enable imagick \
-    && docker-php-ext-enable mcrypt
+    && docker-php-ext-enable imagick
 
 RUN   \
    rm -f /var/log/apache2/* \
@@ -62,7 +61,6 @@ RUN   \
    && mkdir -p /home/LogFiles \
    && ln -s /home/site/wwwroot /var/www/html \
    && ln -s /home/LogFiles /var/log/apache2 
-
 
 RUN { \
                 echo 'opcache.memory_consumption=128'; \
@@ -86,7 +84,7 @@ COPY sshd_config /etc/ssh/
 EXPOSE 2222 8080
 
 ENV APACHE_RUN_USER www-data
-ENV PHP_VERSION 7.2.1
+ENV PHP_VERSION 5.6.36
 
 ENV PORT 8080
 ENV WEBSITE_ROLE_INSTANCE_ID localRoleInstance
