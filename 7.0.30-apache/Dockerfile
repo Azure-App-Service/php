@@ -1,4 +1,4 @@
-FROM php:5.6.21-apache
+FROM php:7.0.30-apache
 MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
 
 COPY apache2.conf /bin/
@@ -8,8 +8,8 @@ COPY hostingstart.html /home/site/wwwroot/hostingstart.html
 RUN a2enmod rewrite expires include deflate
 
 # install the PHP extensions we need
-RUN apt update \ 
-    && apt install -y --no-install-recommends \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
          libpng12-dev \
          libjpeg-dev \
          libpq-dev \
@@ -62,6 +62,7 @@ RUN   \
    && ln -s /home/site/wwwroot /var/www/html \
    && ln -s /home/LogFiles /var/log/apache2 
 
+
 RUN { \
                 echo 'opcache.memory_consumption=128'; \
                 echo 'opcache.interned_strings_buffer=8'; \
@@ -84,7 +85,7 @@ COPY sshd_config /etc/ssh/
 EXPOSE 2222 8080
 
 ENV APACHE_RUN_USER www-data
-ENV PHP_VERSION 5.6.21
+ENV PHP_VERSION 7.0.30
 
 ENV PORT 8080
 ENV WEBSITE_ROLE_INSTANCE_ID localRoleInstance
