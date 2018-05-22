@@ -1,8 +1,8 @@
-FROM appsvc/php:5.6.36-apache_1805092223
+FROM reponame/php:7.2.5-apache_buildnumber
 MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
 
-RUN yes | pecl install xdebug-2.5.5 \
+RUN yes | pecl install xdebug-beta \
     && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.profiler_output_dir=/home/LogFiles" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.profiler_output_dir=/home/LogFiles" >> /usr/local/etc/php/conf.d/xdebug.ini
