@@ -10,7 +10,7 @@ RUN a2enmod rewrite expires include deflate
 # install the PHP extensions we need
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-         libpng12-dev \
+         libpng-dev \
          libjpeg-dev \
          libpq-dev \
          libmcrypt-dev \
