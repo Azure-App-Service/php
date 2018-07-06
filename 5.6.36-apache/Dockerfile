@@ -8,18 +8,27 @@ COPY hostingstart.html /home/site/wwwroot/hostingstart.html
 RUN a2enmod rewrite expires include deflate
 
 # install the PHP extensions we need
-RUN apt update \ 
-    && apt install -y --no-install-recommends \
-         libpng12-dev \
-         libjpeg-dev \
-         libpq-dev \
-         libmcrypt-dev \
-         libldap2-dev \
-         libldb-dev \
-         libicu-dev \
-         libgmp-dev \
-         libmagickwand-dev \
-         openssh-server vim curl wget tcptraceroute \
+RUN apt-get update \ 
+    && apt-get install -y --no-install-recommends \
+        libpng-dev \
+        libjpeg-dev \
+        libpq-dev \
+        libmcrypt-dev \
+        libldap2-dev \
+        libldb-dev \
+        libicu-dev \
+        libgmp-dev \
+        libmagickwand-dev \
+        libc-client-dev \
+        libtidy-dev \
+        libkrb5-dev \
+        libxslt-dev \
+        unixodbc-dev \
+        openssh-server \
+        vim \
+        curl \
+        wget \
+        tcptraceroute \
     && chmod 755 /bin/init_container.sh \
     && echo "root:Docker!" | chpasswd \
     && echo "cd /home" >> /etc/bash.bashrc \
@@ -29,22 +38,51 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/* \
     && pecl install imagick-beta \
     && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
+    && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
+    && docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr \
     && docker-php-ext-install gd \
-         mysqli \
-         opcache \
-         pdo \
-         pdo_mysql \
-         pdo_pgsql \
-         pgsql \
-         ldap \
-         intl \
-         mcrypt \
-         gmp \
-         zip \
-         bcmath \
-         mbstring \
-         pcntl \
+        mysqli \
+        opcache \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        pgsql \
+        ldap \
+        intl \
+        mcrypt \
+        gmp \
+        zip \
+        bcmath \
+        mbstring \
+        pcntl \
+        calendar \
+        exif \
+        gettext \
+        imap \
+        tidy \
+        shmop \
+        soap \
+        sockets \
+        sysvmsg \
+        sysvsem \
+        sysvshm \
+        pdo_odbc \
+        wddx \
+        xmlrpc \
+        xsl \
     && docker-php-ext-enable imagick
+
+# install odbc php ext
+RUN apt-get update \
+  && apt-get install unixodbc-dev
+
+RUN set -x \
+    && docker-php-source extract \
+    && cd /usr/src/php/ext/odbc \
+    && phpize \
+    && sed -ri 's@^ *test +"\$PHP_.*" *= *"no" *&& *PHP_.*=yes *$@#&@g' configure \
+    && ./configure --with-unixODBC=shared,/usr \
+    && docker-php-ext-install odbc
 
 RUN   \
    rm -f /var/log/apache2/* \
