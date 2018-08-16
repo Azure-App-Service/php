@@ -13,11 +13,13 @@ docker login -u "$2" -p "$3"
 docker build -q -t "$1"/php:5.6.36-apache_"$buildnumber" 5.6.36-apache
 docker build -q -t "$1"/php:7.0.30-apache_"$buildnumber" 7.0.30-apache
 docker build -q -t "$1"/php:7.2.5-apache_"$buildnumber" -t "$1"/php:latest_"$buildnumber" 7.2.5-apache
+docker build -q -t "$1"/php:7.2.5-nginx-fpm_"$buildnumber" 7.2.5-nginx-fpm
 docker tag "$1"/php:latest_"$buildnumber" "$1"/php:latest
 
 docker push "$1"/php:5.6.36-apache_"$buildnumber"
 docker push "$1"/php:7.0.30-apache_"$buildnumber"
 docker push "$1"/php:7.2.5-apache_"$buildnumber"
+docker push "$1"/php:7.2.5-nginx-fpm_"$buildnumber"
 docker push "$1"/php:latest_"$buildnumber"
 docker push "$1"/php:latest
 
@@ -26,15 +28,23 @@ docker push "$1"/php:latest
 sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 5.6.36-apache-xdebug/Dockerfile.template > 5.6.36-apache-xdebug/Dockerfile
 sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 7.0.30-apache-xdebug/Dockerfile.template > 7.0.30-apache-xdebug/Dockerfile
 sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 7.2.5-apache-xdebug/Dockerfile.template > 7.2.5-apache-xdebug/Dockerfile
+sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 7.2.5-nginx-fpm-xdebug/Dockerfile.template > 7.2.5-nginx-fpm-xdebug/Dockerfile
 
 # build xdebug images
 docker build -q -t "$1"/php:5.6.36-apache-xdebug_"$buildnumber" 5.6.36-apache-xdebug
 docker build -q -t "$1"/php:7.0.30-apache-xdebug_"$buildnumber" 7.0.30-apache-xdebug
 docker build -q -t "$1"/php:7.2.5-apache-xdebug_"$buildnumber" -t "$1"/php:latest-xdebug_"$buildnumber" 7.2.5-apache-xdebug
+docker build -q -t "$1"/php:7.2.5-nginx-fpm-xdebug_"$buildnumber" 7.2.5-nginx-fpm-xdebug
 
 docker push "$1"/php:5.6.36-apache-xdebug_"$buildnumber"
 docker push "$1"/php:7.0.30-apache-xdebug_"$buildnumber"
 docker push "$1"/php:7.2.5-apache-xdebug_"$buildnumber"
+docker push "$1"/php:7.2.5-nginx-fpm-xdebug_"$buildnumber"
 docker push "$1"/php:latest-xdebug_"$buildnumber"
 
 docker logout
+
+rm 5.6.36-apache-xdebug/Dockerfile
+rm 7.0.30-apache-xdebug/Dockerfile
+rm 7.2.5-apache-xdebug/Dockerfile
+rm 7.2.5-nginx-fpm-xdebug/Dockerfile
