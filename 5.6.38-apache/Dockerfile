@@ -1,4 +1,4 @@
-FROM php:7.0.30-apache
+FROM php:5.6.38-apache
 MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
 
 COPY apache2.conf /bin/
@@ -8,7 +8,7 @@ COPY hostingstart.html /home/site/wwwroot/hostingstart.html
 RUN a2enmod rewrite expires include deflate
 
 # install the PHP extensions we need
-RUN apt-get update \
+RUN apt-get update \ 
     && apt-get install -y --no-install-recommends \
         libpng-dev \
         libjpeg-dev \
@@ -37,9 +37,6 @@ RUN apt-get update \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && rm -rf /var/lib/apt/lists/* \
     && pecl install imagick-beta \
-    && pecl install sqlsrv pdo_sqlsrv \
-    && echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini \
-    && echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini \
     && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr \
@@ -63,7 +60,7 @@ RUN apt-get update \
         gettext \
         imap \
         tidy \
-        shmop \ 
+        shmop \
         soap \
         sockets \
         sysvmsg \
@@ -103,7 +100,6 @@ RUN   \
    && ln -s /home/site/wwwroot /var/www/html \
    && ln -s /home/LogFiles /var/log/apache2 
 
-
 RUN { \
                 echo 'opcache.memory_consumption=128'; \
                 echo 'opcache.interned_strings_buffer=8'; \
@@ -126,7 +122,7 @@ COPY sshd_config /etc/ssh/
 EXPOSE 2222 8080
 
 ENV APACHE_RUN_USER www-data
-ENV PHP_VERSION 7.0.30
+ENV PHP_VERSION 5.6.38
 
 ENV PORT 8080
 ENV WEBSITE_ROLE_INSTANCE_ID localRoleInstance

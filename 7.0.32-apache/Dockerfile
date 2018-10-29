@@ -1,4 +1,4 @@
-FROM php:7.2.5-apache
+FROM php:7.0.32-apache
 MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
 
 COPY apache2.conf /bin/
@@ -37,7 +37,6 @@ RUN apt-get update \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && rm -rf /var/lib/apt/lists/* \
     && pecl install imagick-beta \
-    && pecl install mcrypt-1.0.1 \
     && pecl install sqlsrv pdo_sqlsrv \
     && echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini \
     && echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini \
@@ -53,6 +52,7 @@ RUN apt-get update \
         pgsql \
         ldap \
         intl \
+        mcrypt \
         gmp \
         zip \
         bcmath \
@@ -63,7 +63,7 @@ RUN apt-get update \
         gettext \
         imap \
         tidy \
-        shmop \
+        shmop \ 
         soap \
         sockets \
         sysvmsg \
@@ -73,8 +73,7 @@ RUN apt-get update \
         wddx \
         xmlrpc \
         xsl \
-    && docker-php-ext-enable imagick \
-    && docker-php-ext-enable mcrypt
+    && docker-php-ext-enable imagick
 
 # install odbc php ext
 RUN apt-get update \
@@ -127,7 +126,7 @@ COPY sshd_config /etc/ssh/
 EXPOSE 2222 8080
 
 ENV APACHE_RUN_USER www-data
-ENV PHP_VERSION 7.2.5
+ENV PHP_VERSION 7.0.32
 
 ENV PORT 8080
 ENV WEBSITE_ROLE_INSTANCE_ID localRoleInstance
