@@ -29,6 +29,7 @@ RUN apt-get update \
         curl \
         wget \
         tcptraceroute \
+        mysql-client \
     && chmod 755 /bin/init_container.sh \
     && echo "root:Docker!" | chpasswd \
     && echo "cd /home" >> /etc/bash.bashrc \
