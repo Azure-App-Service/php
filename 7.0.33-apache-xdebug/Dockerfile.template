@@ -1,4 +1,4 @@
-FROM reponame/php:7.0.32-apache_buildnumber
+FROM reponame/php:7.0.33-apache_buildnumber
 MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
 
 RUN yes | pecl install xdebug \

@@ -1,6 +1,7 @@
-FROM php:7.0.32-apache
-MAINTAINER Azure App Services Container Images <appsvc-images@microsoft.com>
+FROM php:7.0.33-apache
+LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
+ENV PHP_VERSION 7.0.33
 COPY apache2.conf /bin/
 COPY init_container.sh /bin/
 COPY hostingstart.html /home/site/wwwroot/hostingstart.html
@@ -37,7 +38,7 @@ RUN apt-get update \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && rm -rf /var/lib/apt/lists/* \
     && pecl install imagick-beta \
-    && pecl install sqlsrv pdo_sqlsrv \
+    && pecl install sqlsrv-5.3.0 pdo_sqlsrv-5.3.0 \
     && echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini \
     && echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini \
     && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
@@ -121,15 +122,18 @@ RUN { \
                 echo 'date.timezone=UTC'; \
     } > /usr/local/etc/php/conf.d/php.ini
 
-COPY sshd_config /etc/ssh/
-
-EXPOSE 2222 8080
-
-ENV APACHE_RUN_USER www-data
-ENV PHP_VERSION 7.0.32
-
 ENV PORT 8080
 ENV SSH_PORT 2222
+EXPOSE 2222 8080
+COPY sshd_config /etc/ssh/
+
+ENV APACHE_RUN_USER www-data
+
+# setup default site
+RUN mkdir -p /opt/startup
+COPY generateStartupCommand.sh /opt/startup/generateStartupCommand.sh
+RUN chmod 755 /opt/startup/generateStartupCommand.sh
+
 ENV WEBSITE_ROLE_INSTANCE_ID localRoleInstance
 ENV WEBSITE_INSTANCE_ID localInstance
 ENV PATH ${PATH}:/home/site/wwwroot
