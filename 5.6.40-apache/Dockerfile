@@ -85,8 +85,15 @@ RUN set -x \
     && ./configure --with-unixODBC=shared,/usr \
     && docker-php-ext-install odbc
 
-RUN   \
-   rm -f /var/log/apache2/* \
+RUN apt update \
+    && apt install -y gpg \
+    && apt install -y apt-transport-https \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt update \
+    && ACCEPT_EULA=Y apt install -y msodbcsql17
+
+RUN rm -f /var/log/apache2/* \
    && rmdir /var/lock/apache2 \
    && rmdir /var/run/apache2 \
    && rmdir /var/log/apache2 \
