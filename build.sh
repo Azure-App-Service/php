@@ -10,37 +10,37 @@ buildnumber=${4-$(date -u +"%y%m%d%H%M")}
 docker login -u "$2" -p "$3"
 
 # build base images
-docker build -q -t "$1"/php:5.6.40-apache_"$buildnumber" 5.6.40-apache
-docker build -q -t "$1"/php:7.0.33-apache_"$buildnumber" 7.0.33-apache
-docker build -q -t "$1"/php:7.2.15-apache_"$buildnumber" -t 7.2.15-apache
-docker build -q -t "$1"/php:7.3.2-apache_"$buildnumber" -t "$1"/php:latest_"$buildnumber" 7.3.2-apache
+docker build -q -t "$1"/php:5.6-apache_"$buildnumber" 5.6-apache
+docker build -q -t "$1"/php:7.0-apache_"$buildnumber" 7.0-apache
+docker build -q -t "$1"/php:7.2-apache_"$buildnumber" -t 7.2-apache
+docker build -q -t "$1"/php:7.3-apache_"$buildnumber" -t "$1"/php:latest_"$buildnumber" 7.3-apache
 docker tag "$1"/php:latest_"$buildnumber" "$1"/php:latest
 
-docker push "$1"/php:5.6.40-apache_"$buildnumber"
-docker push "$1"/php:7.0.33-apache_"$buildnumber"
-docker push "$1"/php:7.2.15-apache_"$buildnumber"
-docker push "$1"/php:7.3.2-apache_"$buildnumber"
+docker push "$1"/php:5.6-apache_"$buildnumber"
+docker push "$1"/php:7.0-apache_"$buildnumber"
+docker push "$1"/php:7.2-apache_"$buildnumber"
+docker push "$1"/php:7.3-apache_"$buildnumber"
 docker push "$1"/php:latest_"$buildnumber"
 docker push "$1"/php:latest
 
 # xdebug depends on base images
 # generate dockerfile for xdebug
-sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 5.6.40-apache-xdebug/Dockerfile.template > 5.6.40-apache-xdebug/Dockerfile
-sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 7.0.33-apache-xdebug/Dockerfile.template > 7.0.33-apache-xdebug/Dockerfile
-sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 7.2.15-apache-xdebug/Dockerfile.template > 7.2.15-apache-xdebug/Dockerfile
-sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 7.3.2-apache-xdebug/Dockerfile.template > 7.3.2-apache-xdebug/Dockerfile
+sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 5.6-apache-xdebug/Dockerfile.template > 5.6-apache-xdebug/Dockerfile
+sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 7.0-apache-xdebug/Dockerfile.template > 7.0-apache-xdebug/Dockerfile
+sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 7.2-apache-xdebug/Dockerfile.template > 7.2-apache-xdebug/Dockerfile
+sed -e s/reponame/"$1"/g -e s/buildnumber/"$buildnumber"/g 7.3-apache-xdebug/Dockerfile.template > 7.3-apache-xdebug/Dockerfile
 
 # build xdebug images
-docker build -q -t "$1"/5.6.40-apache-xdebug_"$buildnumber" 5.6.40-apache-xdebug
-docker build -q -t "$1"/7.0.33-apache-xdebug_"$buildnumber" 7.0.33-apache-xdebug
-docker build -q -t "$1"/7.2.15-apache-xdebug_"$buildnumber" 7.2.15-apache-xdebug
-docker build -q -t "$1"/7.3.2-apache-xdebug_"$buildnumber" -t "$1"/php:latest-xdebug_"$buildnumber" 7.3.2-apache-xdebug
+docker build -q -t "$1"/5.6-apache-xdebug_"$buildnumber" 5.6-apache-xdebug
+docker build -q -t "$1"/7.0-apache-xdebug_"$buildnumber" 7.0-apache-xdebug
+docker build -q -t "$1"/7.2-apache-xdebug_"$buildnumber" 7.2-apache-xdebug
+docker build -q -t "$1"/7.3-apache-xdebug_"$buildnumber" -t "$1"/php:latest-xdebug_"$buildnumber" 7.3-apache-xdebug
 docker tag "$1"/php:latest-xdebug_"$buildnumber" "$1"/php:latest-xdebug
 
-docker push "$1"/php:5.6.40-apache-xdebug_"$buildnumber"
-docker push "$1"/php:7.0.33-apache-xdebug_"$buildnumber"
-docker push "$1"/php:7.2.15-apache-xdebug_"$buildnumber"
-docker push "$1"/php:7.3.2-apache-xdebug_"$buildnumber"
+docker push "$1"/php:5.6-apache-xdebug_"$buildnumber"
+docker push "$1"/php:7.0-apache-xdebug_"$buildnumber"
+docker push "$1"/php:7.2-apache-xdebug_"$buildnumber"
+docker push "$1"/php:7.3-apache-xdebug_"$buildnumber"
 docker push "$1"/php:latest-xdebug_"$buildnumber"
 docker push "$1"/php:latest-xdebug
 
