@@ -116,6 +116,7 @@ RUN { \
                 echo 'log_errors=On'; \
                 echo 'display_startup_errors=Off'; \
                 echo 'date.timezone=UTC'; \
+                echo 'expose_php=Off'; \
     } > /usr/local/etc/php/conf.d/php.ini
 
 ENV PORT 8080
