@@ -1,7 +1,7 @@
-FROM php:5.6.40-apache
+FROM oryxprod/php-5.6:20190501.3
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
-ENV PHP_VERSION 5.6.40
+ENV PHP_VERSION 5.6
 COPY apache2.conf /bin/
 COPY init_container.sh /bin/
 COPY hostingstart.html /home/site/wwwroot/hostingstart.html
@@ -33,9 +33,6 @@ RUN apt-get update \
     && chmod 755 /bin/init_container.sh \
     && echo "root:Docker!" | chpasswd \
     && echo "cd /home" >> /etc/bash.bashrc \
-    && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
-    && ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so \
-    && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && rm -rf /var/lib/apt/lists/* \
     && pecl install imagick-beta \
     && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
