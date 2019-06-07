@@ -1,2 +1,5 @@
-* [ ] Are these changes auto-generated from Azure-App-Service/php-templates
-* [ ] Have you made the same changes to Azure-App-Service/php-templates
+
+
+---------------------------
+* [ ] Are these changes auto-generated from [php-template](https://github.com/Azure-App-Service/php-template)
+* [ ] Have you made the same changes to [php-template](https://github.com/Azure-App-Service/php-template)
