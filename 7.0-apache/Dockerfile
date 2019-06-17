@@ -29,6 +29,7 @@ RUN apt-get update \
         vim \
         curl \
         wget \
+        nano \
         tcptraceroute \
     && chmod 755 /bin/init_container.sh \
     && echo "root:Docker!" | chpasswd \
