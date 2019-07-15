@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/oryx/php:7.0-20190708.2
+FROM mcr.microsoft.com/oryx/php:7.0-20190712.5
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
 ENV PHP_VERSION 7.0
@@ -40,14 +40,14 @@ RUN { \
    echo 'ServerName localhost'; \
    echo 'CustomLog /dev/stderr combined'; \
 } >> /etc/apache2/apache2.conf
-RUN rm -f /usr/local/etc/php/conf.d/php.ini \
-   && { \
-                echo 'error_log=/dev/stderr'; \
-                echo 'display_errors=Off'; \
-                echo 'log_errors=On'; \
-                echo 'display_startup_errors=Off'; \
-                echo 'date.timezone=UTC'; \
-                echo 'zend_extension=opcache'; \
+RUN rm -f /usr/local/etc/php/conf.d/php.ini \	
+   && { \	
+                echo 'error_log=/dev/stderr'; \	
+                echo 'display_errors=Off'; \	
+                echo 'log_errors=On'; \	
+                echo 'display_startup_errors=Off'; \	
+                echo 'date.timezone=UTC'; \	
+                echo 'zend_extension=opcache'; \	
     } > /usr/local/etc/php/conf.d/php.ini
 
 RUN rm -f /etc/apache2/conf-enabled/other-vhosts-access-log.conf
