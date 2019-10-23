@@ -1,15 +1,28 @@
-FROM mcr.microsoft.com/oryx/php:5.6-20190730.1
+FROM mcr.microsoft.com/oryx/php:5.6-20191018.1
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
 ENV PHP_VERSION 5.6
 
+RUN apt-get update \
+   && apt-get install --yes --no-install-recommends \
+      curl \
+      net-tools \
+      dnsutils \
+      tcpdump \
+      iproute2
+
 COPY init_container.sh /bin/
 COPY hostingstart.html /home/site/wwwroot/hostingstart.html
 
+RUN if [[ "$PHP_VERSION" == "5.6" || "$PHP_VERSION" == "7.0" ]] ; then \
+        apt-get install -y libmcrypt-dev \
+        && docker-php-ext-install mcrypt; \
+    fi
+    
 RUN chmod 755 /bin/init_container.sh \
     && mkdir -p /home/LogFiles/ \
     && echo "root:Docker!" | chpasswd \
-    && echo "cd /home/site/wwwroot" >> /etc/bash.bashrc \
+    && echo "cd /home" >> /root/.bashrc \
     && ln -s /home/site/wwwroot /var/www/html \
     && mkdir -p /opt/startup
 
@@ -37,9 +50,12 @@ RUN sed -i 's!User ${APACHE_RUN_GROUP}!Group www-data!g' /etc/apache2/apache2.co
 RUN { \
    echo 'DocumentRoot /home/site/wwwroot'; \
    echo 'DirectoryIndex default.htm default.html index.htm index.html index.php hostingstart.html'; \
-   echo 'ServerName localhost'; \
    echo 'CustomLog /dev/stderr combined'; \
+   echo '<FilesMatch "\.(?i:ph([[p]?[0-9]*|tm[l]?))$">'; \
+   echo '   SetHandler application/x-httpd-php'; \
+   echo '</FilesMatch>'; \
 } >> /etc/apache2/apache2.conf
+
 RUN rm -f /usr/local/etc/php/conf.d/php.ini \
    && { \
                 echo 'error_log=/dev/stderr'; \
@@ -51,6 +67,7 @@ RUN rm -f /usr/local/etc/php/conf.d/php.ini \
     } > /usr/local/etc/php/conf.d/php.ini
 
 RUN rm -f /etc/apache2/conf-enabled/other-vhosts-access-log.conf
+RUN rm /etc/apache2/sites-enabled/000-default.conf
 
 WORKDIR /home/site/wwwroot
 
